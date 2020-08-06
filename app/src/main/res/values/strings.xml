@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TheList</string>
+    <string name="menu_text_redditpost">HOT</string>
+    <string name="menu_text_settings">Settings</string>
+</resources>
