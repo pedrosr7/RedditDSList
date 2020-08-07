@@ -30,6 +30,9 @@ import thevoid.whichbinds.redditdslist.domain.models.RedditPost
 class RedditPostFragment : BaseFragment() {
 
     private val mainViewModel: MainViewModel by viewModel()
+    private var playWhenReady = true
+    private var currentWindow = 0
+    private var playbackPosition: Long = 0
 
     companion object {
 
@@ -43,6 +46,7 @@ class RedditPostFragment : BaseFragment() {
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         observe(mainViewModel.showLoading) { show ->
             show?.let {
                 val alpha = if (it) 1.0f else  0.0f
@@ -118,9 +122,6 @@ class RedditPostFragment : BaseFragment() {
         }
     }
 
-    private var playWhenReady = true
-    private var currentWindow = 0
-    private var playbackPosition: Long = 0
     private fun releasePlayer(player: ExoPlayer) {
         with (player) {
             playWhenReady = playWhenReady
@@ -130,11 +131,6 @@ class RedditPostFragment : BaseFragment() {
         }
     }
     private fun initializePlayer(): SimpleExoPlayer = SimpleExoPlayer.Builder(requireContext()).build()
-
-    private fun setSource(media: String) {
-        val uri = Uri.parse(media)
-    }
-
 
     private fun buildMediaSource(uri: Uri): MediaSource? {
         val dataSourceFactory: DataSource.Factory =

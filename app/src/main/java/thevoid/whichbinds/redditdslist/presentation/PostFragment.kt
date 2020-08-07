@@ -3,7 +3,6 @@ package thevoid.whichbinds.redditdslist.presentation
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.Switch
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,9 +17,8 @@ import thevoid.whichbinds.redditdslist.R
 import thevoid.whichbinds.redditdslist.core.extensions.appContext
 import thevoid.whichbinds.redditdslist.core.plataform.BaseFragment
 import thevoid.whichbinds.redditdslist.domain.models.Post
-import thevoid.whichbinds.redditdslist.domain.models.RedditPost
 
-
+@ExperimentalCoroutinesApi
 class PostFragment : BaseFragment() {
 
     var editTextType: TextInputEditText? = null
@@ -38,10 +36,14 @@ class PostFragment : BaseFragment() {
 
     override fun layoutId(): Int = R.layout.fragment_post
 
-    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setPostForm()
+        setPostList()
+    }
+
+    private fun setPostList() {
         recyclerViewPost.layoutManager = LinearLayoutManager(context)
         listPaged<String, Post> {
             recyclerView = this@PostFragment.recyclerViewPost
@@ -72,8 +74,9 @@ class PostFragment : BaseFragment() {
 
             }
         }
+    }
 
-
+    private fun setPostForm() {
         val manager = GridLayoutManager(context, 2)
         manager.spanSizeLookup = object : SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -147,18 +150,24 @@ class PostFragment : BaseFragment() {
                     appContext?.getColor(R.color.colorAccent)?.let { button?.setBackgroundColor(it) }
 
                     button?.setOnClickListener {
-                        posts.add(Post(
-                            title = editTextTitle?.text?.toString() ,
-                            description = editTextDescription?.text?.toString(),
-                            type = editTextType?.text?.toString()
-                        ))
-                        postsLiveData.postValue(posts)
+                        val title = editTextTitle?.text?.toString()
+                        val description = editTextDescription?.text?.toString()
+                        val type = editTextType?.text?.toString()
+
+                        if(!title.isNullOrBlank() && !description.isNullOrBlank() && !type.isNullOrBlank()){
+                            posts.add(Post(
+                                title = title ,
+                                description =  description,
+                                type = type
+                            ))
+                            postsLiveData.postValue(posts)
+                            editTextTitle?.text?.clear()
+                            editTextDescription?.text?.clear()
+                            editTextType?.text?.clear()
+                        }
                     }
-
-
                 }
             }
-
         }
     }
 }
