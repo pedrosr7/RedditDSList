@@ -24,11 +24,15 @@ import thevoid.whichbinds.dslist.ListState
 import thevoid.whichbinds.dslist.listPaged
 import thevoid.whichbinds.redditdslist.R
 import thevoid.whichbinds.redditdslist.core.extensions.observe
+import thevoid.whichbinds.redditdslist.core.plataform.BaseFragment
 import thevoid.whichbinds.redditdslist.domain.models.RedditPost
 
-class RedditPostFragment : Fragment() {
+class RedditPostFragment : BaseFragment() {
 
     private val mainViewModel: MainViewModel by viewModel()
+    private var playWhenReady = true
+    private var currentWindow = 0
+    private var playbackPosition: Long = 0
 
     companion object {
 
@@ -37,16 +41,12 @@ class RedditPostFragment : Fragment() {
         }
     }
 
-
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_redditpost, container, false)
-    }
+    override fun layoutId(): Int = R.layout.fragment_redditpost
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         observe(mainViewModel.showLoading) { show ->
             show?.let {
                 val alpha = if (it) 1.0f else  0.0f
@@ -122,9 +122,6 @@ class RedditPostFragment : Fragment() {
         }
     }
 
-    private var playWhenReady = true
-    private var currentWindow = 0
-    private var playbackPosition: Long = 0
     private fun releasePlayer(player: ExoPlayer) {
         with (player) {
             playWhenReady = playWhenReady
@@ -134,11 +131,6 @@ class RedditPostFragment : Fragment() {
         }
     }
     private fun initializePlayer(): SimpleExoPlayer = SimpleExoPlayer.Builder(requireContext()).build()
-
-    private fun setSource(media: String) {
-        val uri = Uri.parse(media)
-    }
-
 
     private fun buildMediaSource(uri: Uri): MediaSource? {
         val dataSourceFactory: DataSource.Factory =

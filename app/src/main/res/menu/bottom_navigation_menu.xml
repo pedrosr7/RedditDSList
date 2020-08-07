@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
     <item
-        android:id="@+id/pageReddit"
+        android:id="@+id/nav_graph_reddit_post"
         android:icon="@drawable/ic_hot"
-        android:title="@string/menu_text_redditpost"
-        android:orderInCategory="1"
-        app:showAsAction="ifRoom" />
+        tools:ignore = "MenuTitle"/>
     <item
-        android:id="@+id/pageSettings"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/menu_text_settings"
-        android:orderInCategory="2"
-        app:showAsAction="always" />
+        android:id="@+id/nav_graph_post"
+        android:icon="@drawable/ic_add"
+        tools:ignore = "MenuTitle" />
 </menu>
