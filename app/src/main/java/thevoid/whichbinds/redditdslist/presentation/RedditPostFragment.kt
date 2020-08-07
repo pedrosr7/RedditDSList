@@ -24,9 +24,10 @@ import thevoid.whichbinds.dslist.ListState
 import thevoid.whichbinds.dslist.listPaged
 import thevoid.whichbinds.redditdslist.R
 import thevoid.whichbinds.redditdslist.core.extensions.observe
+import thevoid.whichbinds.redditdslist.core.plataform.BaseFragment
 import thevoid.whichbinds.redditdslist.domain.models.RedditPost
 
-class RedditPostFragment : Fragment() {
+class RedditPostFragment : BaseFragment() {
 
     private val mainViewModel: MainViewModel by viewModel()
 
@@ -37,12 +38,7 @@ class RedditPostFragment : Fragment() {
         }
     }
 
-
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_redditpost, container, false)
-    }
+    override fun layoutId(): Int = R.layout.fragment_redditpost
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
