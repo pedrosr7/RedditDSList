@@ -1,13 +1,11 @@
-package thevoid.whichbinds.redditdslist.presentation
+package thevoid.whichbinds.redditdslist.presentation.fragments
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import com.google.android.exoplayer2.ExoPlayer
@@ -17,6 +15,7 @@ import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.fragment_redditpost.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,10 +25,11 @@ import thevoid.whichbinds.redditdslist.R
 import thevoid.whichbinds.redditdslist.core.extensions.observe
 import thevoid.whichbinds.redditdslist.core.plataform.BaseFragment
 import thevoid.whichbinds.redditdslist.domain.models.RedditPost
+import thevoid.whichbinds.redditdslist.presentation.viewmodels.RedditPostViewModel
 
 class RedditPostFragment : BaseFragment() {
 
-    private val mainViewModel: MainViewModel by viewModel()
+    private val redditPostViewModel: RedditPostViewModel by viewModel()
     private var playWhenReady = true
     private var currentWindow = 0
     private var playbackPosition: Long = 0
@@ -47,7 +47,7 @@ class RedditPostFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(mainViewModel.showLoading) { show ->
+        observe(redditPostViewModel.showLoading) { show ->
             show?.let {
                 val alpha = if (it) 1.0f else  0.0f
 
@@ -67,12 +67,12 @@ class RedditPostFragment : BaseFragment() {
             load {
                 when(it) {
                     ListState.REFRESH -> print("")
-                    ListState.PREPEND -> mainViewModel.getPosts(after = null, before = before)
-                    ListState.APPEND -> mainViewModel.getPosts(after = after, before = null)
+                    ListState.PREPEND -> redditPostViewModel.getPosts(after = null, before = before)
+                    ListState.APPEND -> redditPostViewModel.getPosts(after = after, before = null)
                 }
             }
 
-            observe(mainViewModel.redditPost) { posts ->
+            observe(redditPostViewModel.redditPost) { posts ->
                 posts?.let {
                     for (value in it) {
                         row {
@@ -91,6 +91,10 @@ class RedditPostFragment : BaseFragment() {
 
                                 val playerView: PlayerView? =
                                     itemView.findViewById(R.id.playerView)
+
+                                val cardView: MaterialCardView? =
+                                    itemView.findViewById(R.id.cardView_post)
+
 
                                 if(redditPost.media !== null) {
                                     val player = initializePlayer()
@@ -114,6 +118,10 @@ class RedditPostFragment : BaseFragment() {
 
                                 title?.text = redditPost.author
                                 author?.text = redditPost.title
+
+                                cardView?.setOnClickListener {
+                                    findNavController().navigate(R.id.redditPostDetailsFragment)
+                                }
                             }
                         }
                     }

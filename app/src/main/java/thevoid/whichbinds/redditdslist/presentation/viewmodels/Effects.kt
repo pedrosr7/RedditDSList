@@ -1,4 +1,4 @@
-package thevoid.whichbinds.redditdslist.presentation
+package thevoid.whichbinds.redditdslist.presentation.viewmodels
 
 import arrow.Kind
 import thevoid.whichbinds.redditdslist.core.Runtime
@@ -14,7 +14,12 @@ fun <F> Runtime<F>.getPosts(after: String?, before: String?, view: RedditListVie
     !effect { view.hideLoading() }
     !effect {
         maybeNews.fold(
-            ifLeft = { displayErrors(view, it) },
+            ifLeft = {
+                displayErrors(
+                    view,
+                    it
+                )
+            },
             ifRight = {
                 view.drawReddit(it.posts)
             }
@@ -31,7 +36,8 @@ interface StateView {
     fun showAuthenticationError()
 }
 
-interface RedditListView : StateView {
+interface RedditListView :
+    StateView {
     fun drawReddit(redditPosts: List<RedditPost>)
 }
 

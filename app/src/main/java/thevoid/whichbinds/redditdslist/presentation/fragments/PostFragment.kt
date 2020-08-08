@@ -1,9 +1,11 @@
-package thevoid.whichbinds.redditdslist.presentation
+package thevoid.whichbinds.redditdslist.presentation.fragments
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
@@ -12,7 +14,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import thevoid.whichbinds.dslist.PaintText
 import thevoid.whichbinds.dslist.listPaged
+import thevoid.whichbinds.dslist.swipeTo
 import thevoid.whichbinds.redditdslist.R
 import thevoid.whichbinds.redditdslist.core.extensions.appContext
 import thevoid.whichbinds.redditdslist.core.plataform.BaseFragment
@@ -45,7 +49,7 @@ class PostFragment : BaseFragment() {
 
     private fun setPostList() {
         recyclerViewPost.layoutManager = LinearLayoutManager(context)
-        listPaged<String, Post> {
+        val postsDSL = listPaged<String, Post> {
             recyclerView = this@PostFragment.recyclerViewPost
             observe(postsLiveData) { postsIn ->
                 postsIn?.let {
@@ -74,6 +78,34 @@ class PostFragment : BaseFragment() {
 
             }
         }
+
+        swipeTo(recyclerViewPost) {
+            left {
+                backgroundColor = context?.let { getColor(it, R.color.colorDefaultRightSwipe) }
+                icon = this@PostFragment.context?.let { ContextCompat.getDrawable(it, R.drawable.ic_archive) }
+                text = PaintText("hola mundo", margin = 120f)
+                swiped = {
+                    posts.removeAt(it.adapterPosition)
+                    postsLiveData.postValue(posts)
+                    //postsDSL.adapter.removeAt(it.adapterPosition)
+                }
+            }
+            right {
+                text = context?.let{ getColor(it, R.color.colorPrimary) }?.let {
+                    PaintText(
+                        "hola mundo",
+                        margin = 100f,
+                        textColor = it
+                    )
+                }
+
+            }
+        }
+
+       /* dragTo(recyclerView) { viewHolder, target ->
+            //lis.adapter.itemMove(viewHolder.adapterPosition, target.adapterPosition)
+        }*/
+
     }
 
     private fun setPostForm() {
@@ -90,7 +122,6 @@ class PostFragment : BaseFragment() {
 
         listPaged<String, String> {
             recyclerView = this@PostFragment.recyclerView
-
 
             row {
                 content = "Title"

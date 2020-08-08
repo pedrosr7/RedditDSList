@@ -7,9 +7,19 @@
 
     <fragment
         android:id="@+id/redditPostFragment"
-        android:name="thevoid.whichbinds.redditdslist.presentation.RedditPostFragment"
+        android:name="thevoid.whichbinds.redditdslist.presentation.fragments.RedditPostFragment"
         android:label="fragment_redditpost"
         tools:layout="@layout/fragment_redditpost" >
+        <action
+            android:id="@+id/action_redditPostFragment_to_redditPostDetailsFragment"
+            app:destination="@id/redditPostDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/redditPostDetailsFragment"
+        android:name="thevoid.whichbinds.redditdslist.presentation.fragments.RedditPostDetailsFragment"
+        android:label="fragment_redditpost_details"
+        tools:layout="@layout/fragment_redditpost_details" >
     </fragment>
 
 </navigation>
