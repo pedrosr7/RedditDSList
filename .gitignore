@@ -108,3 +108,4 @@ fastlane/report.xml
 # MP4 and VTT files
 *.mp4
 *.mp4.vtt
+*dslist/

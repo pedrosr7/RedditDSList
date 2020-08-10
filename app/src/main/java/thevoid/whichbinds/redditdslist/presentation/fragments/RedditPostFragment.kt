@@ -1,10 +1,14 @@
 package thevoid.whichbinds.redditdslist.presentation.fragments
 
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.core.view.doOnPreDraw
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
@@ -16,11 +20,15 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.android.synthetic.main.fragment_redditpost.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import thevoid.whichbinds.dslist.ListState
-import thevoid.whichbinds.dslist.listPaged
+import thevoid.whichbinds.dslist.listDSL
 import thevoid.whichbinds.redditdslist.R
 import thevoid.whichbinds.redditdslist.core.extensions.observe
 import thevoid.whichbinds.redditdslist.core.plataform.BaseFragment
@@ -61,7 +69,7 @@ class RedditPostFragment : BaseFragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        listPaged<String, RedditPost> {
+        listDSL<String, RedditPost> {
             recyclerView = this@RedditPostFragment.recyclerView
 
             load {
@@ -119,8 +127,13 @@ class RedditPostFragment : BaseFragment() {
                                 title?.text = redditPost.author
                                 author?.text = redditPost.title
 
+                                cardView?.transitionName = "shared_element_container(${redditPost.key})"
+
                                 cardView?.setOnClickListener {
-                                    findNavController().navigate(R.id.redditPostDetailsFragment)
+                                    postponeEnterTransition()
+                                    cardView.doOnPreDraw { startPostponedEnterTransition() }
+                                    val extras = FragmentNavigatorExtras(cardView to cardView.transitionName)
+                                    findNavController().navigate(R.id.action_redditPostFragment_to_redditPostDetailsFragment, null, null, extras)
                                 }
                             }
                         }
@@ -128,6 +141,19 @@ class RedditPostFragment : BaseFragment() {
                 }
             }
         }
+
+        exitTransition = MaterialElevationScale(/* growing= */ false)
+        reenterTransition = MaterialElevationScale(/* growing= */ true)
+
+        val backward = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        reenterTransition = backward
+
+        val forward = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        exitTransition = forward
+        // Fragment A’s exitTransition can be set any time before Fragment A is
+        // replaced with Fragment B. Ensure Hold's duration is set to the same
+        // duration as your MaterialContainerTransform.
+        //exitTransition = Hold()
     }
 
     private fun releasePlayer(player: ExoPlayer) {

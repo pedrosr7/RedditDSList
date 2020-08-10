@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,6 +23,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) setupBottomNavigationBar()
 
+       /* val host: NavHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_container) as NavHostFragment? ?: return
+
+        // Set up Action Bar
+        val navController = host.navController
+
+        setupBottomNavMenu(navController)*/
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
@@ -30,6 +39,10 @@ class MainActivity : AppCompatActivity() {
         // and its selectedItemId, we can proceed with setting up the
         // BottomNavigationBar with Navigation
         setupBottomNavigationBar()
+    }
+
+    private fun setupBottomNavMenu(navController: NavController) {
+       // bottomNavigation?.setupWithNavController(navController)
     }
 
     /**
