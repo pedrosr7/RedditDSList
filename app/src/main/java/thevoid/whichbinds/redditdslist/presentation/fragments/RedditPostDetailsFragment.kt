@@ -6,6 +6,7 @@ import androidx.navigation.fragment.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_redditpost_details.*
 import thevoid.whichbinds.redditdslist.R
 import thevoid.whichbinds.redditdslist.core.plataform.BaseFragment
+import thevoid.whichbinds.redditdslist.domain.models.RedditPost
 
 class RedditPostDetailsFragment : BaseFragment() {
 
@@ -13,6 +14,8 @@ class RedditPostDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val redditPost: RedditPost? = arguments?.getSerializable("redditPost") as RedditPost?
+
         imageViewBack.setOnClickListener {
             NavHostFragment.findNavController(
                 this@RedditPostDetailsFragment).navigateUp()

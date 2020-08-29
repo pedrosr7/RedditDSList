@@ -26,15 +26,6 @@
         android:name="thevoid.whichbinds.redditdslist.presentation.fragments.RedditPostDetailsFragment"
         android:label="@string/menu_text_reddit_hot_details"
         tools:layout="@layout/fragment_redditpost_details" >
-
-       <!-- <action android:id="@+id/action_b_to_a"
-            app:destination="@id/redditPostFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/redditPostFragment"
-            />-->
     </fragment>
 
 </navigation>

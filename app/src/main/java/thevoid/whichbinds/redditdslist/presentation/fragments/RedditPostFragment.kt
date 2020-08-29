@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.doOnPreDraw
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -88,9 +89,6 @@ class RedditPostFragment : BaseFragment() {
                                 val title: TextView? =
                                     itemView.findViewById(R.id.textView_title)
 
-                                val author: TextView? =
-                                    itemView.findViewById(R.id.textView_author)
-
                                 val image: ImageView? =
                                     itemView.findViewById(R.id.imageView)
 
@@ -121,8 +119,7 @@ class RedditPostFragment : BaseFragment() {
                                     image?.visibility = View.VISIBLE
                                 }
 
-                                title?.text = redditPost.author
-                                author?.text = redditPost.title
+                                title?.text = redditPost.title
 
                                 cardView?.transitionName = "shared_element_container(${redditPost.key})"
 
@@ -131,7 +128,9 @@ class RedditPostFragment : BaseFragment() {
                                     cardView.doOnPreDraw { startPostponedEnterTransition() }
                                     val extras = FragmentNavigatorExtras(cardView to cardView.transitionName)
                                     findNavController().navigate(R.id.action_redditPostFragment_to_redditPostDetailsFragment, null, null, extras)*/
-                                    findNavController().navigate(R.id.action_redditPostFragment_to_redditPostDetailsFragment)
+
+                                    val bundle = bundleOf("redditPost" to redditPost)
+                                    findNavController().navigate(R.id.action_redditPostFragment_to_redditPostDetailsFragment, bundle)
                                 }
                             }
                         }
