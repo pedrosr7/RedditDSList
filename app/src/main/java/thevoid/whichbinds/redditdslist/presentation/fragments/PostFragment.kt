@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.transition.MaterialContainerTransform
 import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import thevoid.whichbinds.dslist.*

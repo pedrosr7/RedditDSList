@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.navigation.fragment.NavHostFragment
 import coil.api.load
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
@@ -65,9 +64,7 @@ class RedditPostDetailsFragment : BaseFragment() {
         imageViewBack.setOnClickListener {
             NavHostFragment.findNavController(
                 this@RedditPostDetailsFragment).popBackStack()
-
         }
-
     }
 
     override fun onDestroy() {
