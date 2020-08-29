@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
@@ -105,8 +106,10 @@ class RedditPostFragment : BaseFragment() {
                                     val uri = Uri.parse(redditPost.media.hls_url)
                                     val mediaSource = buildMediaSource(uri)
                                     with(player) {
+                                        volume = 0f
                                         playWhenReady = this@RedditPostFragment.playWhenReady
                                         seekTo(currentWindow, playbackPosition)
+                                        repeatMode = Player.REPEAT_MODE_ONE
                                         mediaSource?.let { it1 -> prepare(it1, false, false) }
                                     }
 
