@@ -2,7 +2,7 @@
 
  [![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 
- RedditDSList is an application that show how useful the library [DSList](https://github.com/pedrosr7/DSList) is for created a recyclerview list in Android:
+ RedditDSList is an application that show how useful the library [DSList](https://github.com/pedrosr7/DSList) is for created a recyclerview list in Android.
  
  DSList is:
  * Type-safe builder: DSList is base on domain-specific language (DSL), suitable for building complex hierarchical data structures in a semi-declarative way.
