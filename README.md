@@ -271,8 +271,10 @@
     }
  }
  ```
- ## Created by Pedro Sánchez Ramírez
- 
+ ## Creator
+  
+    Pedro Sánchez Ramírez
+    
  ## License
 
     Copyright (c) 2020, DSList Contributors.
