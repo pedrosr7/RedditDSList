@@ -1,9 +1,11 @@
-package thevoid.whichbinds.redditdslist.presentation
+package thevoid.whichbinds.redditdslist.presentation.fragments
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
@@ -12,9 +14,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import thevoid.whichbinds.dslist.listPaged
+import thevoid.whichbinds.dslist.*
 import thevoid.whichbinds.redditdslist.R
 import thevoid.whichbinds.redditdslist.core.extensions.appContext
+import thevoid.whichbinds.redditdslist.core.extensions.itemMove
+import thevoid.whichbinds.redditdslist.core.extensions.removeAt
 import thevoid.whichbinds.redditdslist.core.plataform.BaseFragment
 import thevoid.whichbinds.redditdslist.domain.models.Post
 
@@ -25,9 +29,8 @@ class PostFragment : BaseFragment() {
     var editTextTitle: TextInputEditText? = null
     var editTextDescription: TextInputEditText? = null
 
-    private val posts: MutableList<Post> = mutableListOf()
-    private val postsLiveData: MutableLiveData<List<Post>> by lazy {
-        MutableLiveData<List<Post>>()
+    private val postsLiveData: MutableLiveData<Post> by lazy {
+        MutableLiveData<Post>()
     }
 
     companion object {
@@ -45,35 +48,48 @@ class PostFragment : BaseFragment() {
 
     private fun setPostList() {
         recyclerViewPost.layoutManager = LinearLayoutManager(context)
-        listPaged<String, Post> {
+        val postsDSL = listDSL<String, Post> {
             recyclerView = this@PostFragment.recyclerViewPost
             observe(postsLiveData) { postsIn ->
                 postsIn?.let {
-                    for (value in it) {
-                        row {
-                            content = value
-                            viewType = R.layout.item_post
-                            viewBind { post, itemView ->
-                                val title: TextView? =
-                                    itemView.findViewById(R.id.textView_title)
+                    row {
+                        content = it
+                        viewType = R.layout.item_post
+                        viewBind { post, itemView ->
+                            val title: TextView? =
+                                itemView.findViewById(R.id.textView_title)
 
-                                val description: TextView? =
-                                    itemView.findViewById(R.id.textView_description)
+                            val description: TextView? =
+                                itemView.findViewById(R.id.textView_description)
 
-                                val type: TextView? =
-                                    itemView.findViewById(R.id.textView_type)
+                            val type: TextView? =
+                                itemView.findViewById(R.id.textView_type)
 
-                                title?.text = post.title
-                                description?.text = post.description
-                                type?.text = post.type
+                            title?.text = post.title
+                            description?.text = post.description
+                            type?.text = post.type
 
-                            }
                         }
                     }
                 }
-
             }
         }
+
+        swipeTo(recyclerViewPost) {
+            left {
+                backgroundColor = context?.let { getColor(it, R.color.colorRed) }
+                icon = this@PostFragment.context?.let { ContextCompat.getDrawable(it, R.drawable.ic_delete) }
+               // text = PaintText("hola mundo", margin = 130f)
+                swiped = {
+                    postsDSL.adapter.removeAt(it.adapterPosition)
+                }
+            }
+        }
+
+        dragTo(recyclerViewPost) { viewHolder, target ->
+            postsDSL.adapter.itemMove(viewHolder.adapterPosition, target.adapterPosition)
+        }
+
     }
 
     private fun setPostForm() {
@@ -88,9 +104,8 @@ class PostFragment : BaseFragment() {
         }
         recyclerView.layoutManager = manager
 
-        listPaged<String, String> {
+        listDSL<String, String> {
             recyclerView = this@PostFragment.recyclerView
-
 
             row {
                 content = "Title"
@@ -155,12 +170,11 @@ class PostFragment : BaseFragment() {
                         val type = editTextType?.text?.toString()
 
                         if(!title.isNullOrBlank() && !description.isNullOrBlank() && !type.isNullOrBlank()){
-                            posts.add(Post(
+                            postsLiveData.postValue(Post(
                                 title = title ,
                                 description =  description,
                                 type = type
                             ))
-                            postsLiveData.postValue(posts)
                             editTextTitle?.text?.clear()
                             editTextDescription?.text?.clear()
                             editTextType?.text?.clear()

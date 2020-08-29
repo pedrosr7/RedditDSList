@@ -1,4 +1,4 @@
-package thevoid.whichbinds.redditdslist.presentation
+package thevoid.whichbinds.redditdslist.presentation.viewmodels
 
 import androidx.lifecycle.*
 import arrow.fx.IO
@@ -9,7 +9,8 @@ import thevoid.whichbinds.redditdslist.core.MyApplication
 import thevoid.whichbinds.redditdslist.core.runtime
 import thevoid.whichbinds.redditdslist.domain.models.RedditPost
 
-class MainViewModel(application: MyApplication) : ViewModel(), RedditListView {
+class RedditPostViewModel(application: MyApplication) : ViewModel(),
+    RedditListView {
 
     val redditPost: MutableLiveData<List<RedditPost>> by lazy {
         MutableLiveData<List<RedditPost>>()
@@ -30,7 +31,7 @@ class MainViewModel(application: MyApplication) : ViewModel(), RedditListView {
         unsafe { runNonBlocking({ runtime.getPosts(
             after = after,
             before = before,
-            view = this@MainViewModel
+            view = this@RedditPostViewModel
         )}, {}) }
     }
 

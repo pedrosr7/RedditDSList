@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:transitionName="shared_element_container">
+
+    <ImageView
+        android:id="@+id/imageViewBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back_arrow"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/textViewAuthor"
+        android:gravity="left"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewBack"
+        app:layout_constraintStart_toEndOf="@+id/imageViewBack"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBack" />
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+
+        app:layout_constraintBottom_toTopOf="@+id/cardView_post_details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewBack"
+        app:show_buffering="when_playing"
+        app:show_shuffle_button="true"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView_post_details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewBack"
+        app:srcCompat="@drawable/image_background" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView_post_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/textView_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="?android:attr/textColorSecondary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        app:chipIcon="@drawable/ic_thumb_up"
+                        app:chipStartPadding="8dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipComments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        app:chipIcon="@drawable/ic_chat_bubble"
+                        app:chipStartPadding="8dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,9 @@
 package thevoid.whichbinds.redditdslist.di
 
-import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import thevoid.whichbinds.redditdslist.core.MyApplication
-import thevoid.whichbinds.redditdslist.presentation.MainViewModel
+import thevoid.whichbinds.redditdslist.presentation.viewmodels.RedditPostViewModel
 
 val appModule = module {
 
@@ -12,5 +11,9 @@ val appModule = module {
     single { MyApplication() }
 
     // MyViewModel ViewModel
-    viewModel { MainViewModel(get()) }
+    viewModel {
+        RedditPostViewModel(
+            get()
+        )
+    }
 }

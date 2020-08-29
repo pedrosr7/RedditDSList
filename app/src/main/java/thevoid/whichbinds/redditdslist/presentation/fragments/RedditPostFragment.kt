@@ -1,41 +1,42 @@
-package thevoid.whichbinds.redditdslist.presentation
+package thevoid.whichbinds.redditdslist.presentation.fragments
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.fragment_redditpost.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import thevoid.whichbinds.dslist.ListState
-import thevoid.whichbinds.dslist.listPaged
+import thevoid.whichbinds.dslist.listDSL
 import thevoid.whichbinds.redditdslist.R
 import thevoid.whichbinds.redditdslist.core.extensions.observe
 import thevoid.whichbinds.redditdslist.core.plataform.BaseFragment
 import thevoid.whichbinds.redditdslist.domain.models.RedditPost
+import thevoid.whichbinds.redditdslist.presentation.viewmodels.RedditPostViewModel
 
 class RedditPostFragment : BaseFragment() {
 
-    private val mainViewModel: MainViewModel by viewModel()
+    private val redditPostViewModel: RedditPostViewModel by viewModel()
     private var playWhenReady = true
     private var currentWindow = 0
     private var playbackPosition: Long = 0
 
     companion object {
-
         fun newInstance(): RedditPostFragment {
             return RedditPostFragment()
         }
@@ -47,7 +48,7 @@ class RedditPostFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(mainViewModel.showLoading) { show ->
+        observe(redditPostViewModel.showLoading) { show ->
             show?.let {
                 val alpha = if (it) 1.0f else  0.0f
 
@@ -61,18 +62,18 @@ class RedditPostFragment : BaseFragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        listPaged<String, RedditPost> {
+        listDSL<String, RedditPost> {
             recyclerView = this@RedditPostFragment.recyclerView
 
             load {
                 when(it) {
                     ListState.REFRESH -> print("")
-                    ListState.PREPEND -> mainViewModel.getPosts(after = null, before = before)
-                    ListState.APPEND -> mainViewModel.getPosts(after = after, before = null)
+                    ListState.PREPEND -> redditPostViewModel.getPosts(after = null, before = before)
+                    ListState.APPEND -> redditPostViewModel.getPosts(after = after, before = null)
                 }
             }
 
-            observe(mainViewModel.redditPost) { posts ->
+            observe(redditPostViewModel.redditPost) { posts ->
                 posts?.let {
                     for (value in it) {
                         row {
@@ -83,14 +84,15 @@ class RedditPostFragment : BaseFragment() {
                                 val title: TextView? =
                                     itemView.findViewById(R.id.textView_title)
 
-                                val author: TextView? =
-                                    itemView.findViewById(R.id.textView_author)
-
                                 val image: ImageView? =
                                     itemView.findViewById(R.id.imageView)
 
                                 val playerView: PlayerView? =
                                     itemView.findViewById(R.id.playerView)
+
+                                val cardView: MaterialCardView? =
+                                    itemView.findViewById(R.id.cardView_post)
+
 
                                 if(redditPost.media !== null) {
                                     val player = initializePlayer()
@@ -98,8 +100,10 @@ class RedditPostFragment : BaseFragment() {
                                     val uri = Uri.parse(redditPost.media.hls_url)
                                     val mediaSource = buildMediaSource(uri)
                                     with(player) {
+                                        volume = 0f
                                         playWhenReady = this@RedditPostFragment.playWhenReady
                                         seekTo(currentWindow, playbackPosition)
+                                        repeatMode = Player.REPEAT_MODE_ONE
                                         mediaSource?.let { it1 -> prepare(it1, false, false) }
                                     }
 
@@ -112,8 +116,14 @@ class RedditPostFragment : BaseFragment() {
                                     image?.visibility = View.VISIBLE
                                 }
 
-                                title?.text = redditPost.author
-                                author?.text = redditPost.title
+                                title?.text = redditPost.title
+
+                                cardView?.transitionName = "shared_element_container(${redditPost.key})"
+
+                                cardView?.setOnClickListener {
+                                    val bundle = bundleOf("redditPost" to redditPost)
+                                    findNavController().navigate(R.id.action_redditPostFragment_to_redditPostDetailsFragment, bundle)
+                                }
                             }
                         }
                     }

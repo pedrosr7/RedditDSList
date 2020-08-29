@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/postFragment"
-        android:name="thevoid.whichbinds.redditdslist.presentation.PostFragment"
-        android:label="fragment_post"
+        android:name="thevoid.whichbinds.redditdslist.presentation.fragments.PostFragment"
+        android:label="@string/menu_text_reddit_post"
         tools:layout="@layout/fragment_post" >
     </fragment>
 

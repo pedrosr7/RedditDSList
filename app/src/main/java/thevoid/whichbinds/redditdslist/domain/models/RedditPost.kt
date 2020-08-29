@@ -1,5 +1,7 @@
 package thevoid.whichbinds.redditdslist.domain.models
 
+import java.io.Serializable
+
 data class RedditPost (
     val key: String,
     val url: String,
@@ -9,4 +11,4 @@ data class RedditPost (
     val commentCount: Int,
     val permalink: String,
     val media: RedditMedia?
-)
+): Serializable

@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion 29
@@ -46,16 +47,16 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 
+    implementation "androidx.navigation:navigation-runtime-ktx:$navVersion"
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
 
-    implementation "thevoid.whichbinds.dslist:dslist:$dslistVersion"
+    //implementation "thevoid.whichbinds.dslist:dslist:$dslistVersion"
+    implementation project(":dslist")
 
     implementation "io.coil-kt:coil:$coilVersion"
 
     implementation "com.google.android.exoplayer:exoplayer:$exoplayerVersion"
-
-    //add viewmodel and lifecycle
 
 
     //adding retrofit to the app
