@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import thevoid.whichbinds.redditdslist.R
@@ -16,69 +16,29 @@ import thevoid.whichbinds.redditdslist.core.extensions.setupWithNavController
 
 class MainActivity : AppCompatActivity() {
 
-    private var currentNavController: LiveData<NavController>? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) setupBottomNavigationBar()
 
-       /* val host: NavHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_container) as NavHostFragment? ?: return
-
-        // Set up Action Bar
-        val navController = host.navController
-
-        setupBottomNavMenu(navController)*/
 
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-        // Now that BottomNavigationBar has restored its instance state
-        // and its selectedItemId, we can proceed with setting up the
-        // BottomNavigationBar with Navigation
         setupBottomNavigationBar()
     }
 
-    private fun setupBottomNavMenu(navController: NavController) {
-       // bottomNavigation?.setupWithNavController(navController)
-    }
-
-    /**
-     * Called on first creation and when restoring state.
-     */
     private fun setupBottomNavigationBar() {
-
         val navGraphIds = listOf(R.navigation.nav_graph_reddit_post, R.navigation.nav_graph_post)
-
-        // Setup the bottom navigation view with a list of navigation graphs
-        val controller = bottomNavigation.setupWithNavController(
+        bottomNavigation.setupWithNavController(
             navGraphIds = navGraphIds,
             fragmentManager = supportFragmentManager,
             containerId = R.id.nav_host_container,
             intent = intent
         )
-        // Whenever the selected controller changes, setup the action bar.
-        /* controller.observe(this, Observer { navController ->
-             setupActionBarWithNavController(navController)
-         })
-         currentNavController = controller*/
-
-    }
-
-    private fun openFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.nav_host_container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
     }
 
 
-
-    override fun onStart() {
-        super.onStart()
-    }
     private fun hideSystemUi(playerView: PlayerView?) {
         playerView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LOW_PROFILE
                 or View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -88,15 +48,6 @@ class MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        /*unsafe {
-            runNonBlocking({
-                IO.runtime(application().runtimeContext).getAllNews(this@MainActivity)
-            }, {})
-        }*/
-    }
 
     //--------------------------------------------------------------------------------------------//
     //***************************************EXAMPLES*********************************************//

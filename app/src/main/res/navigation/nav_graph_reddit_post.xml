@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph_reddit_post"
     app:startDestination="@id/redditPostFragment">
 
+    <action android:id="@+id/action_pop_out_of_game"
+        app:popUpTo="@id/nav_graph_reddit_post"
+        app:popUpToInclusive="true"  />
+
     <fragment
         android:id="@+id/redditPostFragment"
         android:name="thevoid.whichbinds.redditdslist.presentation.fragments.RedditPostFragment"
-        android:label="fragment_redditpost"
+        android:label="@string/menu_text_reddit_hot"
         tools:layout="@layout/fragment_redditpost" >
         <action
             android:id="@+id/action_redditPostFragment_to_redditPostDetailsFragment"
             app:destination="@id/redditPostDetailsFragment" />
+
     </fragment>
 
     <fragment
         android:id="@+id/redditPostDetailsFragment"
         android:name="thevoid.whichbinds.redditdslist.presentation.fragments.RedditPostDetailsFragment"
-        android:label="fragment_redditpost_details"
+        android:label="@string/menu_text_reddit_hot_details"
         tools:layout="@layout/fragment_redditpost_details" >
+
+       <!-- <action android:id="@+id/action_b_to_a"
+            app:destination="@id/redditPostFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/redditPostFragment"
+            />-->
     </fragment>
 
 </navigation>

@@ -2,6 +2,10 @@
 buildscript {
     ext.kotlin_version = "1.3.72"
     ext.gradle_version = "4.0.0"
+    ext.bintray_version = "1.8.4"
+    ext.maven_version = "2.1"
+
+
     repositories {
         google()
         jcenter()
@@ -9,6 +13,10 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:$maven_version"
+
+
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -32,9 +40,9 @@ ext {
     minSdkVersion = 23
     compileSdkVersion = targetSdkVersion
     buildToolsVersion = '29.0.2'
-    appcompatVersion = '1.1.0'
+    appcompatVersion = '1.2.0'
     coreVersion = '1.3.1'
-    constraintlayoutVersion = '1.1.3'
+    constraintlayoutVersion = '2.0.1'
     recyclerviewVersion = '1.1.0'
     materialDesign = '1.2.0'
     navVersion = '2.3.0'
@@ -44,23 +52,39 @@ ext {
     retrofit2Version = '2.6.0'
     coroutinesVersion = '1.3.6'
     coroutinesRetrofit2Version = '0.9.2'
-    dslistVersion = '0.1.0'
+    dslistVersion = '0.2.0'
     koinVersion = '2.1.5'
     roomVersion = '2.2.5'
+    arrowVersion = '0.10.2'
 
     junitVersion = "4.12"
     testRunnerVersion = "1.2.0"
     espressoCoreVersion = "3.2.0"
 
-    // ValidateTor Library Info
-    libVersionCode = 1
-    libVersionName = '1.0.0'
-    libPomUrl = 'https://github.com/pedrosr7/thelistlib'
-    libGithubRepo = 'pedrosr7/thelistlib'
-    libModuleName = 'thelistlib'
-    libModuleDesc = 'Android library for fast and simple string validation.'
-    libBintrayName = 'thelistlib'
 
-    arrowVersion = '0.10.2'
+    libVersionCode = 1
+    libVersionName = '0.1.1'
+
+    bintrayRepo = 'DSList' // Repo name in bintray dashboard
+    bintrayName = 'thevoid.whichbinds.dslist' // package name of the bintray repo
+
+    publishedGroupId = 'thevoid.whichbinds.dslist'   // this is the ID we want to see in implementation line
+    libraryName = 'dslist'     // this is the module name of library
+    artifact = 'dslist'        // this is the artifact we want to see in implementation line
+
+    libraryDescription = 'Android library for fast and simple implementation of recyclerview list.' // description of library
+
+    siteUrl = 'https://github.com/pedrosr7/DSList'    // git repo url
+    gitUrl = 'https://github.com/pedrosr7/DSList.git' // git repo vcs url
+
+    libraryVersion = '0.1.1'      // library version
+
+    developerId = 'pedrosr7'                // This is your bintray username
+    developerName = 'Pedro Sánchez Ramírez'              // Developer's name
+    developerEmail = 'pedro.srh7@gmail.com'                // Developer's email
+
+    licenseName = 'The Apache Software License, Version 2.0'  // for example, The Apache Software License, Version 2.0
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'   // for example, http://www.apache.org/licenses/LICENSE-2.0.txt
+    allLicenses = ["Apache-2.0"]    // array of licenses, for example, ["Apache-2.0"]
 
 }

@@ -20,8 +20,6 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.transition.Hold
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.android.synthetic.main.fragment_redditpost.*
@@ -43,7 +41,6 @@ class RedditPostFragment : BaseFragment() {
     private var playbackPosition: Long = 0
 
     companion object {
-
         fun newInstance(): RedditPostFragment {
             return RedditPostFragment()
         }
@@ -130,10 +127,11 @@ class RedditPostFragment : BaseFragment() {
                                 cardView?.transitionName = "shared_element_container(${redditPost.key})"
 
                                 cardView?.setOnClickListener {
-                                    postponeEnterTransition()
+                                    /*postponeEnterTransition()
                                     cardView.doOnPreDraw { startPostponedEnterTransition() }
                                     val extras = FragmentNavigatorExtras(cardView to cardView.transitionName)
-                                    findNavController().navigate(R.id.action_redditPostFragment_to_redditPostDetailsFragment, null, null, extras)
+                                    findNavController().navigate(R.id.action_redditPostFragment_to_redditPostDetailsFragment, null, null, extras)*/
+                                    findNavController().navigate(R.id.action_redditPostFragment_to_redditPostDetailsFragment)
                                 }
                             }
                         }
