@@ -9,13 +9,13 @@ class NewsAuthInterceptor(private val apiKey: String = "") : Interceptor {
         var request = chain.request()
         /*val url = request.url()
             .newBuilder()
-            .addQueryParameter("x-rapidapi-key", "9d322448fdmshd1c0651de1b691dp1eb1acjsn91f37ff302cc")
+            .addQueryParameter("x-rapidapi-key","")
             .build()*/
 
         request = request
             .newBuilder()
            /* .addHeader("x-rapidapi-host", "imdb8.p.rapidapi.com")
-            .addHeader("x-rapidapi-key", "9d322448fdmshd1c0651de1b691dp1eb1acjsn91f37ff302cc")*/
+            .addHeader("x-rapidapi-key", "")*/
             .build()
         return chain.proceed(request)
     }
