@@ -65,9 +65,9 @@ class PostFragment : BaseFragment() {
                             val type: TextView? =
                                 itemView.findViewById(R.id.textView_type)
 
-                            title?.text = post.title
-                            description?.text = post.description
-                            type?.text = post.type
+                            title?.text = post?.title
+                            description?.text = post?.description
+                            type?.text = post?.type
 
                         }
                     }
@@ -155,7 +155,7 @@ class PostFragment : BaseFragment() {
 
             row {
                 content = "New post"
-                viewType = R.layout.item_button
+                viewType = R.layout.item_text_field
                 viewBind { content, itemView ->
 
                     val button: Button? =

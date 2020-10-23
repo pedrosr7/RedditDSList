@@ -3,7 +3,9 @@ package thevoid.whichbinds.redditdslist.presentation.fragments
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
@@ -19,6 +21,8 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.fragment_redditpost.*
+import kotlinx.android.synthetic.main.item_reddit_post.*
+
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import thevoid.whichbinds.dslist.ListState
@@ -60,6 +64,9 @@ class RedditPostFragment : BaseFragment() {
             }
         }
 
+
+
+/*        val view: View = inflater.inflate(R.layout.item_reddit_post, null)*/
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         listDSL<String, RedditPost> {
@@ -94,7 +101,7 @@ class RedditPostFragment : BaseFragment() {
                                     itemView.findViewById(R.id.cardView_post)
 
 
-                                if(redditPost.media !== null) {
+                                if (redditPost?.media !== null) {
                                     val player = initializePlayer()
                                     playerView?.player = player
                                     val uri = Uri.parse(redditPost.media.hls_url)
@@ -110,22 +117,27 @@ class RedditPostFragment : BaseFragment() {
 
                                     playerView?.visibility = View.VISIBLE
                                     image?.visibility = View.GONE
-                                }else {
-                                    image?.load(redditPost.url)
+                                } else {
+                                    image?.load(redditPost?.url)
                                     playerView?.visibility = View.GONE
                                     image?.visibility = View.VISIBLE
                                 }
 
-                                title?.text = redditPost.title
+                                title?.text = redditPost?.title
 
-                                cardView?.transitionName = "shared_element_container(${redditPost.key})"
+                                cardView?.transitionName =
+                                    "shared_element_container(${redditPost?.key})"
 
                                 cardView?.setOnClickListener {
                                     val bundle = bundleOf("redditPost" to redditPost)
-                                    findNavController().navigate(R.id.action_redditPostFragment_to_redditPostDetailsFragment, bundle)
+                                    findNavController().navigate(
+                                        R.id.action_redditPostFragment_to_redditPostDetailsFragment,
+                                        bundle
+                                    )
                                 }
                             }
                         }
+
                     }
                 }
             }
